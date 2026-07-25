@@ -1,0 +1,54 @@
+# Nome que aparece na aba "Actions" do GitHub
+name: CI — Testes Automatizados
+
+# Define QUANDO este workflow deve rodar
+on:
+  push:
+    branches: [main] # Toda vez que houver push direto na main
+  pull_request:
+    branches: [main] # Toda vez que um PR for aberto/atualizado contra a main
+
+# Define os jobs (tarefas) que compõem o pipeline
+jobs:
+  testar:
+    # Sistema operacional da máquina virtual que vai rodar o job
+    runs-on: ubuntu-latest
+
+    # Estratégia de matriz: roda o mesmo job em múltiplas versões do Node
+    # Isso ajuda a garantir que o projeto funciona em diferentes ambientes
+    strategy:
+      matrix:
+        node-version: [20.x]
+
+    steps:
+      # Passo 1: Baixa o código do repositório para a máquina virtual
+      - name: Baixar código do repositório
+        uses: actions/checkout@v4
+
+      # Passo 2: Instala a versão do Node.js definida na matriz
+      - name: Configurar Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: "npm" # Cacheia dependências entre execuções (mais rápido)
+          cache-dependency-path: api/package-lock.json
+
+      # Passo 3: Instala as dependências do projeto
+      # (--prefix aponta para a subpasta, já que o backend-mvc não está na raiz do repo)
+      - name: Instalar dependências
+        run: npm install
+
+      # Passo 4: Roda a suíte de testes
+      - name: Rodar testes (Jest)
+        run: npm test
+
+      # Passo 5: Gera e publica o relatório de cobertura de testes
+      - name: Gerar relatório de cobertura
+        run: npm run test:coverage
+
+      # Passo 6: Disponibiliza o relatório de cobertura como artefato baixável
+      - name: Publicar relatório de cobertura
+        uses: actions/upload-artifact@v4
+        with:
+          name: relatorio-cobertura
+          path: api/coverage/

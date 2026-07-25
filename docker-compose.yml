@@ -1,0 +1,36 @@
+version: "3.8"
+
+services:
+  # Serviço 1: API rodando
+  api:
+    build: ./api # Constrói a imagem a partir do Dockerfile em api/
+    container_name: irrigacao-api
+    ports:
+      - "3000:3000" # Porta do host : Porta do container
+    volumes:
+      - ./api/src:/app/src # Sincroniza o código-fonte (mudanças refletem sem rebuild)
+      - ./data:/app/data # Persiste o banco de dados FORA do container (na raiz do projeto)
+    environment:
+      - NODE_ENV=development
+      - DB_PATH=/app/data/irrigacao.db
+    command: npm run dev # Usa o modo watch para desenvolvimento
+
+  # Serviço 2: front end via Nginx
+  frontend:
+    build: ./frontend # Constrói a imagem a partir do Dockerfile em frontend/
+    container_name: irrigacao-frontend
+    ports:
+      - "5500:80" # Nginx escuta na 80 dentro do container; expomos na 5500 do host
+    depends_on:
+      - api # Sobe a API antes do frontend (apenas ordem de inicialização)
+
+  # Serviço 3: roda os testes dentr ode um container isolado
+  test:
+    build: ./api
+    container_name: irrigacao-tests
+    volumes:
+      - ./api/src:/app/src
+      - ./api/tests:/app/tests
+    environment:
+      - NODE_ENV=test
+    command: npm test

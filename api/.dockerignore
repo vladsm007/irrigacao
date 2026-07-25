@@ -1,0 +1,8 @@
+#evita copiar arquivos desnecessários para dentro do container
+node_modules
+npm-debug.log
+.git
+.gitignore
+*.db
+tests
+coverage
