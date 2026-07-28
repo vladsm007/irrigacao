@@ -42,10 +42,12 @@ jobs:
       # Passo 4: Roda a suíte de testes
       - name: Rodar testes (Jest)
         run: npm test
+        working-directory: ./api
 
       # Passo 5: Gera e publica o relatório de cobertura de testes
       - name: Gerar relatório de cobertura
         run: npm run test:coverage
+        working-directory: ./api
 
       # Passo 6: Disponibiliza o relatório de cobertura como artefato baixável
       - name: Publicar relatório de cobertura
