@@ -34,13 +34,27 @@
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
+    "@jest/globals": "^30.4.1",
     "@types/jest": "^30.0.0",
+    "@typescript-eslint/eslint-plugin": "^8.65.0",
+    "@typescript-eslint/parser": "^8.65.0",
     "eslint": "^10.7.0",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-jest": "^29.16.0",
     "globals": "^17.7.0",
-    "jest": "^25.0.0",
+    "jest": "^30.4.2",
+    "jest-environment-jsdom": "^30.4.1",
     "prettier": "^3.9.6",
     "supertest": "^7.2.2"
+  },
+  "overrides": {
+    "brace-expansion": "2.0.2",
+    "minimatch": "10.2.3",
+    "glob": "10.4.5"
+  },
+  "allowScripts": {
+    "@serialport/bindings-cpp@13.0.0": true,
+    "better-sqlite3@13.0.1": true,
+    "unrs-resolver@1.12.2": true
   }
 }
