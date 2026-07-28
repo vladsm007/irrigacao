@@ -1,7 +1,7 @@
 const Leitura = require("../../../src/models/Leitura");
 
-describre("Model: Leitura", () => {
-  describre("criação válida", () => {
+describe("Model: Leitura", () => {
+  describe("criação válida", () => {
     test("deve criar uma leitura com umidade e irrigando válidos", () => {
       const leitura = new Leitura({ umidade: 45, irrigando: true });
 
@@ -9,14 +9,14 @@ describre("Model: Leitura", () => {
       expect(leitura.irrigando).toBe(true);
     });
 
-    test("deve assumir irrigando = false quando não informado ", () => {
+    test("deve assumir irrigando = false quando não informado", () => {
       const leitura = new Leitura({ umidade: 60 });
 
       expect(leitura.irrigando).toBe(false);
     });
   });
 
-  describre("validação de umidade", () => {
+  describe("validação de umidade", () => {
     test("deve lançar erro se umidade não for informada", () => {
       expect(() => {
         new Leitura({});
@@ -42,10 +42,10 @@ describre("Model: Leitura", () => {
     });
   });
 
-  describre(" regra de negócio: solo crítico", () => {
+  describe("regra de negócio: solo crítico", () => {
     test("estaCritica() deve retornar true quando umidade < 40", () => {
       const leitura = new Leitura({ umidade: 25 });
-      expect(leitura.estaCritica().toBe(true));
+      expect(leitura.estaCritica()).toBe(true);
     });
 
     test("estaCritica() deve retornar false quando umidade >= 40", () => {
