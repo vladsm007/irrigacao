@@ -3,7 +3,7 @@ const UMIDADE_CRITICA = 40;
 class Leitura {
   constructor({ umidade, irrigando }) {
     if (umidade === undefined || umidade === null) {
-      throw new Error("Campo 'umidade' é obrigatório");
+      throw new Error("Campo 'umidade' é obrigatório.");
     }
 
     // Validação: precisa ser um número entre 0 e 100
