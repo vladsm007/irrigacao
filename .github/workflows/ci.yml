@@ -37,6 +37,7 @@ jobs:
       # (--prefix aponta para a subpasta, já que o backend-mvc não está na raiz do repo)
       - name: Instalar dependências
         run: npm install
+        working-directory: ./api
 
       # Passo 4: Roda a suíte de testes
       - name: Rodar testes (Jest)
