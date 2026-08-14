@@ -1,5 +1,5 @@
 const { criarConexao } = require("../../../src/config/database");
-const LeituraRepository = require("../../../src/repositories/leituraRepository");
+const LeituraRepository = require("../../../src/repositories/LeituraRepository.js");
 const Leitura = require("../../../src/models/Leitura");
 
 describe("Repository: LeituraRepository", () => {
@@ -23,11 +23,11 @@ describe("Repository: LeituraRepository", () => {
     expect(id).toBe(1); // Primeira incersão
   });
 
-  test("buscarRecentes() deve retornar leituras de mais nova apra a mais antiga", () => {
+  test("buscarRecentes() deve retornar leituras de mais nova para a mais antiga", () => {
     repository.salvar(new Leitura({ umidade: 10, irrigando: true }));
     repository.salvar(new Leitura({ umidade: 90, irrigando: false }));
 
-    const resultado = repository.buscaRecentes(10);
+    const resultado = repository.buscarRecentes(10);
 
     expect(resultado).toHaveLength(2);
     expect(resultado[0].umidade).toBe(90);
@@ -39,7 +39,7 @@ describe("Repository: LeituraRepository", () => {
       repository.salvar(new Leitura({ umidade: i * 10 }));
     }
 
-    const resultado = repository.buscaRecentes(2);
+    const resultado = repository.buscarRecentes(2);
 
     expect(resultado).toHaveLength(2);
   });
@@ -47,14 +47,14 @@ describe("Repository: LeituraRepository", () => {
   test("buscarRecentes() deve retornar irrigando como booleano", () => {
     repository.salvar(new Leitura({ umidade: 30, irrigando: true }));
 
-    const [resultado] = repository.buscaRecentes(1);
+    const [resultado] = repository.buscarRecentes(1);
 
     expect(typeof resultado.irrigando).toBe("boolean");
     expect(resultado.irrigando).toBe(true);
   });
 
   test("buscarRecentes() deve retornar array vazio quando não há leituras", () => {
-    const resultado = repository.buscaRecentes(10);
+    const resultado = repository.buscarRecentes(10);
     expect(resultado).toEqual([]);
   });
 });
