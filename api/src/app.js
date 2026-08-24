@@ -1,6 +1,17 @@
 const express = require("express");
+const cors = require("cors");
 
-const app = express();
-app.use(express.json());
+/**
+ * @param {Database}
+ */
 
-app.listen(3000, () => console.log("api rodando"));
+function criarApp(db) {
+  const app = express();
+
+  app.use(cors());
+  app.use(express.json());
+
+  return app;
+}
+
+module.exports = { criarApp };
