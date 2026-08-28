@@ -1,5 +1,3 @@
-version: "3.8"
-
 services:
   # Serviço 1: API rodando
   api:
@@ -12,6 +10,7 @@ services:
       - ./data:/app/data # Persiste o banco de dados FORA do container (na raiz do projeto)
     environment:
       - NODE_ENV=development
+      - PORT=3000
       - DB_PATH=/app/data/irrigacao.db
     command: npm run dev # Usa o modo watch para desenvolvimento
 
