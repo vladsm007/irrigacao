@@ -1,8 +1,8 @@
+/* global require, module */
 const js = require("@eslint/js");
 const globals = require("globals");
 const jestPlugin = require("eslint-plugin-jest");
 const prettierConfig = require("eslint-config-prettier");
-const plugin = require("eslint-plugin-jest");
 
 module.exports = [
   // Regras recomendadas padrão do ESlint

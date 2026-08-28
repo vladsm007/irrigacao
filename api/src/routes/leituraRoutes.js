@@ -10,6 +10,7 @@ function criarRotasLeitura(db) {
   const controller = new LeituraController(repository);
 
   router.post("/", controller.criar.bind(controller));
+  router.get("/", controller.listar.bind(controller));
 
   return router;
 }

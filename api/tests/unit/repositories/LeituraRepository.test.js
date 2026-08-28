@@ -1,6 +1,8 @@
 const { criarConexao } = require("../../../src/config/database");
 const LeituraRepository = require("../../../src/repositories/LeituraRepository.js");
 const Leitura = require("../../../src/models/Leitura");
+const ControleRepository = require("../../../src/repositories/ControleRepository");
+const Controle = require("../../../src/models/Controle");
 
 describe("Repository: LeituraRepository", () => {
   let db;
@@ -56,5 +58,32 @@ describe("Repository: LeituraRepository", () => {
   test("buscarRecentes() deve retornar array vazio quando não há leituras", () => {
     const resultado = repository.buscarRecentes(10);
     expect(resultado).toEqual([]);
+  });
+});
+
+describe("Repository: ControleRepository", () => {
+  let db;
+  let repository;
+
+  beforeEach(() => {
+    db = criarConexao(":memory:");
+    repository = new ControleRepository(db);
+  });
+
+  afterEach(() => db.close());
+
+  test("buscarEstadoAtual() deve retornar false por padrão(modo automático)", () => {
+    expect(repository.buscarEstadoAtual()).toBe(false);
+  });
+
+  test("atualizar() deve mudar o estado para true ao ligar", () => {
+    repository.atualizar(new Controle({ acao: "ligar" }));
+    expect(repository.buscarEstadoAtual()).toBe(true);
+  });
+
+  test("atualizar() deve mudar o estado para false ao desligar", () => {
+    repository.atualizar(new Controle({ acao: "ligar" }));
+    repository.atualizar(new Controle({ acao: "desligar" }));
+    expect(repository.buscarEstadoAtual()).toBe(false);
   });
 });
